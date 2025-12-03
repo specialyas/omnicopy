@@ -3,6 +3,7 @@ from typing import Any
 from fastapi import HTTPException
 from random import randint
 from fastapi import FastAPI
+from fastapi import Response
 
 
 app = FastAPI(root_path="/api/v1")
@@ -65,6 +66,8 @@ async def create_campaign(body: dict[str, Any]):
 @app.put("/campaigns/{campaign_id}")
 async def update_campaigns(campaign_id: int, body: dict[ str, Any]):
 
+    """update campaigns using the campaign id"""
+
     for index, campaign in enumerate(data):
         if campaign.get("campaign_id") == campaign_id:
 
@@ -78,4 +81,13 @@ async def update_campaigns(campaign_id: int, body: dict[ str, Any]):
             return {"campaigns": updated }
     raise HTTPException(status_code=404)
 
+
+@app.delete("/campaigns/{campaign_id}")
+async def delete_campaigns(campaign_id: int):
+
+    for index, campaign in enumerate(data):
+        if campaign.get("campaign_id") == campaign_id:
+            data.pop(index)
+            return Response(status_code=204)
+    raise HTTPException(status_code=404)
 
