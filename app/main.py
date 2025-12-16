@@ -120,11 +120,14 @@ async def update_campaign(campaign_id: int, campaign: CampaignCreate, session: S
     return {"data": data}
 
 
-# @app.delete("/heroes/{hero_id}")
-# def delete_hero(hero_id: int, session: SessionDep):
-#     hero = session.get(Hero, hero_id)
-#     if not hero:
-#         raise HTTPException(status_code=404, detail="Hero not found")
-#     session.delete(hero)
-#     session.commit()
-#     return {"ok": True}
+
+
+@app.delete("/campaign/{campaign_id}", response_model=Response[Campaign])
+def delete_campaign(campaign_id: int, session: SessionDep):
+    data = session.get(Campaign, campaign_id)
+    if not data:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+
+    session.delete(data)
+    session.commit()
+    return {"data": data}
