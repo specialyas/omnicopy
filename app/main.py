@@ -11,6 +11,7 @@ class Campaign(SQLModel, table=True):
     due_date: datetime | None = Field(default=None, index=True)
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc), nullable=True, index=True)
 
+# add a model for campaign 
 class CampaignCreate(SQLModel):
     name: str
     due_date: datetime | None = None
